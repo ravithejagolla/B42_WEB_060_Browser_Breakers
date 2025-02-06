@@ -4,12 +4,13 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
+import Sidebar from './Components/sidebar.jsx';
 
 createRoot(document.getElementById('root')).render(
-
-<BrowserRouter>
+<>
     <App />
-    <ToastContainer />
-</BrowserRouter>
+    <ToastContainer />  
+    </>
+
 
 )

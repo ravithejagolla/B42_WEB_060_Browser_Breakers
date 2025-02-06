@@ -12,7 +12,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate()
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
  
@@ -21,7 +21,7 @@ const SignUp = () => {
         name,
         email,
         password,
-      });
+      }); 
             toast("✔️ signup succesfully")
       setName("")
       setEmail("")

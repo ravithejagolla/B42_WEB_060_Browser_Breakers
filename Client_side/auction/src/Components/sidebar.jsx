@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-import "./Sidebar.css";
+import '../styling/Sidebar.css';
 import logo from '../assets/logo.png'
 
 function Sidebar() {
@@ -30,6 +30,7 @@ function Sidebar() {
     };
 
     return (
+        <>
         <div className="container">
           
             <div className="sidebar">
@@ -73,9 +74,8 @@ function Sidebar() {
                 </div>
             </div>
 
-            {/* Display User */}
-            <p style={{paddingLeft:500}}> {user}</p>
         </div>
+        </>
     );
 }
 
