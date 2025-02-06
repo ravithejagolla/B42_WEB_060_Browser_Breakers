@@ -1,0 +1,125 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+
+.icon {
+    width: 24px;
+    height: 24px;
+    color: #f8f8f8;
+    padding-right: 10px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #1f2937;
+    color: white;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-header {
+    background-color: #4f46e5;
+    height: 100px;
+    img {
+        position: absolute;
+        height: 50px;
+        top: 20px;
+        left: 100px;
+        transform: rotate(-5deg);
+        border-radius: 10px;
+    }
+    
+}
+
+.sidebar-title {
+    font-weight: bold;
+  
+}
+
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(109, 16, 16);
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 16px;
+    
+}
+
+.menu-item {
+    display: flex;
+    justify-content: start; 
+    align-items: center;
+    padding: 12px;
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background:  #4f46e5;
+}
+
+.active {
+    background: #4f46e5;
+    color: white;
+}
+
+.sign-out-container {
+    padding: 16px;
+    border-top: 1px solid #374151;
+}
+
+.sign-in-button {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 12px;
+    font-size: 16px;
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    border: 1px solid gray;
+    text-decoration: none;
+}
+
+
+.sign-out-button{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    border: 1px solid gray;
+    transition: 0.3s ease, transform 0.2s ease;
+}
+
+.sign-out-button:hover {
+    background-color: rgb(227, 47, 44);
+    color: white;
+}
+.sign-in-button:hover {
+    background-color: rgb(19, 199, 139);
+    color: white;
+}
+
+@media (max-width: 1024px) {
+    .content {
+        margin-left: 0;
+    }
+}
