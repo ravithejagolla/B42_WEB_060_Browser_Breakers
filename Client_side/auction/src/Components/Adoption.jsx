@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Adoption.css"; // Import the CSS file for styling
 
 const Adoption = () => {
-    const URL = "https://67a2535f409de5ed5255172c.mockapi.io/masai/v1/pets";
+    const URL = "https://project-6617325155113103718-default-rtdb.firebaseio.com/.json";
     const [meds, setMeds] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 4;
@@ -100,8 +100,8 @@ const Adoption = () => {
                                 .map((med) => (
                                     <li key={med.id} className="carousel-item">
                                         <h3>{med.name}</h3>
-                                        <img src={med.image} alt={med.name} />
-                                        <p>{med.gender}</p>
+                                        <p>{med.dosage}</p>
+                                        <p>{med.description}</p>
                                         {reminders[med.id] && <p>Reminder set for: {reminders[med.id].time}</p>}
                                         <button onClick={() => setReminder(med.id)}>Set Reminder</button>
                                         <button onClick={() => markAsCompleted(med.id)}>Mark as Completed</button>
