@@ -1,57 +1,109 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styling/Profile.css'
+import '../styling/Profile.css';
+import { toast } from 'react-toastify';
 
 const PatientForm = () => {
+  const [userEmail, setUserEmail] = useState('');
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [age, setAge] = useState('');
   const [phone, setPhone] = useState('');
   const [medicalConditions, setMedicalConditions] = useState('');
-  
+
+  // Fetch user email from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUserEmail(storedUser);
+      fetchPatientByEmail(storedUser);
+    }
+  }, []);
 
 
 
+  // Fetch patient
+  const fetchPatientByEmail = async (email) => {
+    try {
+      const response = await axios.get(`http://localhost:8001/api/patients/email/${email}`);
+      setSelectedPatient(response.data); // Store patient data
+      setLoading(false);
+
+      
+      if (response.data) {
+        setName(response.data.name || '');
+        setAge(response.data.age || '');
+        setPhone(response.data.phone || '');
+        setMedicalConditions(response.data.medicalConditions || '');
+      }
+    } catch (err) {
+      console.error('Error fetching patient:', err);
+      setLoading(false);
+    }
+  };
+ 
+  // Handle form submission (add or update patient)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8001/api/patients', {
-        name,
-        email,
-        age,
-        phone,
-        medicalConditions,
-        preferredLanguage,
-      });
+      if (selectedPatient) {
+       
+        await axios.put(`http://localhost:8001/api/patients/${selectedPatient._id}`, {
+          name,
+          email: userEmail,
+          age,
+          phone,
+          medicalConditions
+        });
+        toast('😊Profile updated successfully');
+      } else {
+        // Add new patient
+        await axios.post('http://localhost:8001/api/patients', {
+          name,
+          email: userEmail,
+          age,
+          phone,
+          medicalConditions
+        });
+        toast('✔️Profile added successfully');
+      }
 
-      setSuccessMessage('Patient added successfully!');
-      setName('');
-      setEmail('');
-      setAge('');
-      setPhone('');
-      setMedicalConditions('');
-      setPreferredLanguage('');
+      // Refresh patient details after update
+      fetchPatientByEmail(userEmail);
     } catch (err) {
-      setError('Failed to add patient');
+      console.error(err);
     }
   };
 
   return (
     <>
-   
     <div className='Profile_container'>
-        
+
+
       <h2>My Profile</h2>
 
-   
 
-     
+      {loading ? (
+    <p style={{color:'red'}}>Add your profile now</p>
+) : selectedPatient ? (
+    <div className="patient-details">
+        <p><strong>Name:</strong> {selectedPatient.name}</p>
+        <p><strong>Email:</strong> {selectedPatient.email}</p>
+        <p><strong>Age:</strong> {selectedPatient.age}</p>
+        <p><strong>Phone:</strong> {selectedPatient.phone}</p>
+        <p><strong>Medical Conditions:</strong> {selectedPatient.medicalConditions}</p>
+    </div>
+) : (
+    <p>Please Add your Profile</p>
+)}
+
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Patient Name:</label>
+          <label>Patient Name:</label><br/><br/>
           <input
             type="text"
             value={name}
@@ -61,17 +113,12 @@ const PatientForm = () => {
         </div>
 
         <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <label>Email:</label><br/><br/>
+          <input type="email" value={userEmail} required disabled />
         </div>
 
         <div>
-          <label>Age:</label>
+          <label>Age:</label><br/><br/>
           <input
             type="number"
             value={age}
@@ -81,7 +128,7 @@ const PatientForm = () => {
         </div>
 
         <div>
-          <label>Phone:</label>
+          <label>Phone:</label><br/><br/>
           <input
             type="text"
             value={phone}
@@ -90,21 +137,23 @@ const PatientForm = () => {
           />
         </div>
 
-        <div>
-          <label>Medical Conditions (comma-separated):</label>
+        <div className='impButton'>
+          <label>Medical Conditions:</label>
           <input
             type="text"
             value={medicalConditions}
             onChange={(e) => setMedicalConditions(e.target.value)}
           />
-        </div>
+       
 
-        <div>
-        
-        </div>
+        <button type="submit">
+          {selectedPatient ? 'Update Profile' : 'Add Profile'}
+        </button>
 
-        <button type="submit">Add Patient</button>
+        </div>
       </form>
+
+     
     </div>
     </>
   );
