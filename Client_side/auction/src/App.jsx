@@ -1,28 +1,35 @@
+import './App.css';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import SignUp from './Authentication/Signup';
+import Login from './Authentication/Login';
+import Sidebar from './Components/Sidebar';
+import PatientForm from './Components/Profile';
+import { Home } from 'lucide-react';
+import Footer from './Components/Footer';
 
-
-import './App.css'
-import { BrowserRouter , Routes , Route } from 'react-router-dom'
-import SignUp from './Authentication/Signup'
-import Login from './Authentication/Login'
-import  Sidebar from './Components/sidebar'
-import PatientForm from './Components/Profile'
-
-function App() {
-
-
+function Layout() {
+  const location = useLocation();
+  const hideSidebarPaths = ["/login", "/signup"];
+  
   return (
     <>
-
-<BrowserRouter>
+      {!hideSidebarPaths.includes(location.pathname) && <Sidebar />}
       <Routes>
-      <Route path="/" element={<Sidebar/>} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<PatientForm />} />
       </Routes>
-      </BrowserRouter>
+      <Footer/>
     </>
-  )
+  );
 }
- 
-export default App
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Layout />
+    </BrowserRouter>
+  );
+}
+
+export default App;
