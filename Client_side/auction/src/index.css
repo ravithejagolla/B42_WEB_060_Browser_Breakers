@@ -4,4 +4,4 @@ body{
     font-family: "Quicksand", sans-serif;
     margin-right: 200px;
 }
-
+@import "tailwindcss";
